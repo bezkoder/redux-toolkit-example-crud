@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { updateTutorial, deleteTutorial } from "../slices/tutorials";
 import TutorialDataService from "../services/tutorial.service";
+import { withRouter } from '../common/with-router';
 
 class Tutorial extends Component {
   constructor(props) {
@@ -25,7 +26,7 @@ class Tutorial extends Component {
   }
 
   componentDidMount() {
-    this.getTutorial(this.props.match.params.id);
+    this.getTutorial(this.props.router.params.id);
   }
 
   onChangeTitle(e) {
@@ -111,7 +112,7 @@ class Tutorial extends Component {
     this.props
       .deleteTutorial({ id: this.state.currentTutorial.id })
       .then(() => {
-        this.props.history.push("/tutorials");
+        this.props.router.navigate('/tutorials');
       })
       .catch((e) => {
         console.log(e);
@@ -199,4 +200,4 @@ class Tutorial extends Component {
   }
 }
 
-export default connect(null, { updateTutorial, deleteTutorial })(Tutorial);
+export default connect(null, { updateTutorial, deleteTutorial })(withRouter(Tutorial));
